@@ -1,0 +1,14 @@
+<?php 
+	$title = 'Edit album';
+	$this->form->setAttribute('action',
+			$this->url('simple-address-book', array('action' => 'edit', 'id'=>$this->id)));
+	$this->form->prepare();
+?>
+<?= $this->headTitle($title) ?>
+<h1><?php echo $this->escapeHtml($title); ?></h1>
+<?= $this->form()->openTag($form) ?>
+<?= $this->formHidden($form->get('id')) ?>
+<?= echo $this->formRow($form->get('title')) ?>
+<?= $this->formRow($form->get('artist')) ?>
+<?= $this->formInput($form->get('submit')) ?>
+<?= $this->form()->closeTag($form) ?>

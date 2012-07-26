@@ -1,0 +1,14 @@
+<?php 
+$title = 'Login';
+
+$this->form->setAttribute('action', '/simple-address-book/contact/login');
+$this->form->prepare();
+?>
+<?= $this->headTitle($title) ?>
+<h1><?= $this->escapeHtml($title) ?></h1>
+<?= $this->form()->openTag($form) ?>
+	<div><?= $this->formRow($form->get('email')) ?> <span>Input "flowerguy@gmail.com"</span></div>
+	<div><?= $this->formRow($form->get('password')) ?><span>Input "guest"</span></div>
+	<?= $this->formInput($form->get('submit')) ?>
+	
+<?= $this->form()->closeTag($form) ?>

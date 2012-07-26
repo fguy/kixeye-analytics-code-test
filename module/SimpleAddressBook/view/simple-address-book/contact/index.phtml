@@ -1,0 +1,45 @@
+<?php $title = 'Contact List' ?>
+<?= $this->headTitle($title) ?>
+<h1>
+	<?= $this->escapeHtml($title) ?>
+</h1>
+<p>
+	<button onclick="location.href='/simple-address-book/contact/add'">Add new</button>
+</p>
+<table>
+	<tr>
+		<th>First name</th>
+		<th>Last name</th>
+		<th>Email</th>
+		<th>Phone</th>
+		<th>2nd Phone</th>
+		<th>Street Address</th>
+		<th>City</th>
+		<th>State</th>
+		<th>Zip</th>
+		<th>Web Address</th>
+		<th></th>
+	</tr>
+	<?php foreach($contact_list as $item) : ?>
+	<tr>
+		<td><?= $this->escapeHtml($item->firstName) ?></td>
+		<td><?= $this->escapeHtml($item->lastName) ?></td>
+		<td><a href="mailto:<?= $item->email ?>"><?= $this->escapeHtml($item->email) ?>
+		</a></td>
+		<td><?= $this->escapeHtml($item->phone) ?></td>
+		<td><?= $item->secondPhone ? $this->escapeHtml($item->secondPhone) : 'None' ?>
+		</td>
+		<td><?= $item->streetAddr ? $this->escapeHtml($item->streetAddr) : 'None' ?>
+		</td>
+		<td><?= $this->escapeHtml($item->city) ?></td>
+		<td><?= $this->escapeHtml($item->state) ?></td>
+		<td><?= $this->escapeHtml($item->zip) ?></td>
+		<td><?= $item->webAddr ? $this->escapeHtml($item->webAddr) : 'None' ?>
+		</td>
+		<td>
+			<button onclick="location.href='/simple-address-book/contact/edit/<?= $item->id ?>'">Edit</button>
+			<button onclick="location.href='/simple-address-book/contact/delete/<?= $item->id ?>'">Delete</button>
+		</td>
+	</tr>
+	<?php endforeach; ?>
+</table>

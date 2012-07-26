@@ -1,0 +1,24 @@
+<?php 
+$title = 'Add new contact';
+
+$this->form->setAttribute('action', '/simple-address-book/contact/add');
+$this->form->prepare();
+?>
+<?= $this->headTitle($title) ?>
+<h1>
+	<?= $this->escapeHtml($title) ?>
+</h1>
+<?= $this->form("contact")->openTag($form) ?>
+	<div><?= $this->formRow($form->get('first_name')) ?></div>
+	<div><?= $this->formRow($form->get('last_name')) ?></div>
+	<div><?= $this->formRow($form->get('email')) ?></div>
+	<div><?= $this->formRow($form->get('phone')) ?></div>
+	<div class="optional"><?= $this->formRow($form->get('second_phone')) ?></div>
+	<div class="optional"><?= $this->formRow($form->get('street_addr')) ?></div>
+	<div><?= $this->formRow($form->get('city')) ?></div>
+	<div><?= $this->formRow($form->get('state')) ?></div>
+	<div><?= $this->formRow($form->get('zip')) ?></div>
+	<div class="optional"><?= $this->formRow($form->get('web_addr')) ?></div>
+	<?= $this->formInput($form->get('submit')) ?>
+	
+<?= $this->form()->closeTag($form) ?>
