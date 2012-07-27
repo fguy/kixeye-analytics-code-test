@@ -2,20 +2,19 @@
 return array(
 		'router' => array(
 				'routes' => array(
-						'home' => array(
-								'type' => 'Zend\Mvc\Router\Http\Literal',
+						'default' => array(
+								'type'    => 'segment',
 								'options' => array(
-										'route'    => '/',
+										'route'    => '[/:action][/:id]',
+										'constraints' => array(
+												'action' => '[a-zA-Z][a-zA-Z0-9_-]*'
+										),
 										'defaults' => array(
 												'controller' => 'Application\Controller\Contact',
 												'action'     => 'index',
 										),
 								),
 						),
-						// The following is a route to simplify getting started creating
-						// new controllers and actions without needing to create a new
-						// module. Simply drop new controllers in, and you can access them
-						// using the path /application/:controller/:action
 						'simple-address-book' => array(
 								'type'    => 'Literal',
 								'options' => array(
@@ -31,12 +30,16 @@ return array(
 										'default' => array(
 												'type'    => 'Segment',
 												'options' => array(
-														'route'    => '/[:controller[/:action]]',
+														'route'    => '/[:controller[/:action]][/:id]',
 														'constraints' => array(
 																'controller' => '[a-zA-Z][a-zA-Z0-9_-]*',
 																'action'     => '[a-zA-Z][a-zA-Z0-9_-]*',
+																'id'     => '[0-9]+',
 														),
 														'defaults' => array(
+																'__NAMESPACE__' => 'Application\Controller',
+																'controller'    => 'Contact',
+																'action'        => 'index',
 														),
 												),
 										),

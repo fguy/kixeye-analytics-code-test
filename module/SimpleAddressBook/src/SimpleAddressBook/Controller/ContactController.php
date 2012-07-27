@@ -23,11 +23,13 @@ class ContactController extends AbstractAuthActionController
 		$form = new ContactForm();
 		$form->get('submit')->setAttribute('value', 'Add');
 		$request = $this->getRequest();
-		if ($request->isPost()) {
+		if ($request->isPost()) 
+		{
 			$contact = new Contact();
 			$form->setInputFilter($contact->getInputFilter());
 			$form->setData($request->getPost());
-			if ($form->isValid()) {
+			if ($form->isValid()) 
+			{
 				$contact->exchangeArray($form->getData());
 				$this->getTableGateway()->save($contact);
 				return $this->redirect()->toRoute(self::MODULE_NAME);
@@ -39,7 +41,12 @@ class ContactController extends AbstractAuthActionController
 	public function editAction()
 	{
 		$id = (int) $this->params('id');
-		if (!$id) {
+		$request = $this->getRequest();
+		
+		$id || ($id = (int) $request->getPost()->get('id'));
+		
+		if (!$id) 
+		{
 			return $this->redirect()->toRoute(self::MODULE_NAME, array('action'=>'add'));
 		}
 		$contact = $this->getTableGateway()->getOne($id);
@@ -47,12 +54,13 @@ class ContactController extends AbstractAuthActionController
 		$form->bind($contact);
 		$form->get('submit')->setAttribute('value', 'Edit');
 
-		$request = $this->getRequest();
-		if ($request->isPost()) {
+		if ($request->isPost())
+		{
 			$form->setData($request->getPost());
-			if ($form->isValid()) {
+			if ($form->isValid()) 
+			{
 				$this->getTableGateway()->save($contact);
-				return $this->redirect()->toRoute('self::MODULE_NAME');
+				return $this->redirect()->toRoute(self::MODULE_NAME);
 			}
 		}
 		return array(
@@ -64,15 +72,19 @@ class ContactController extends AbstractAuthActionController
 	public function deleteAction()
 	{
 		$id = (int) $this->params('id');
-		if (!$id) {
+		$request = $this->getRequest();
+		$isPost = $request->isPost();
+		if (!$isPost && !$id) 
+		{
 			return $this->redirect()->toRoute(self::MODULE_NAME);
 		}
-		$request = $this->getRequest();
-		if ($request->isPost()) {
+		if ($isPost) 
+		{
 			$del = $request->getPost()->get('del', 'No');
-			if ($del == 'Yes') {
-				$id = (int) $request->getPost()->getOne('id');
-				$this->getTableGateway()->delete($id);
+			if ($del == 'Yes') 
+			{
+				$id = (int) $request->getPost()->get('id');
+				$this->getTableGateway()->del($id);
 			}
 			return $this->redirect()->toRoute(self::MODULE_NAME);
 		}
@@ -84,7 +96,8 @@ class ContactController extends AbstractAuthActionController
 
 	private function getTableGateway()
 	{
-		if (!$this->tableGateway) {
+		if (!$this->tableGateway) 
+		{
 			$this->tableGateway = $this->getServiceLocator()->get('SimpleAddressBook\Model\ContactTableGateway');
 			$this->tableGateway->setUser($this->user);
 		}

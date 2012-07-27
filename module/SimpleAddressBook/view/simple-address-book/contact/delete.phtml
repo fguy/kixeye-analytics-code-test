@@ -1,17 +1,10 @@
 <?php $title = 'Delete contact' ?>
 <?= $this->headTitle($title) ?>
-<h1>
-	<?= $this->escapeHtml($title) ?>
-</h1>
+<h1><?= $this->escapeHtml($title) ?></h1>
 <p>
-	Are you sure that you want to delete '
-	<?= $this->escapeHtml($contact->firstName) ?>
-	<?= $this->escapeHtml($contact->lastName) ?>
-	'?
+	Are you sure that you want to delete '<?= $this->escapeHtml($contact->first_name) ?> <?= $this->escapeHtml($contact->last_name) ?>'?
 </p>
-<form
-	action="<?= $this->url('contact', array('action' => 'delete', 'id'=>$this->id)) ?>"
-	method="post">
+<form action="/simple-address-book/contact/delete" method="post">
 	<div>
 		<input type="hidden" name="id" value="<?= $contact->id ?>" /> <input
 			type="submit" name="del" value="Yes" /> <input type="submit"

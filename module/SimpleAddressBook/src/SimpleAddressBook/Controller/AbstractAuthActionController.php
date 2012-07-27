@@ -34,9 +34,9 @@ abstract class AbstractAuthActionController extends AbstractActionController
 			$this->user = new User();
 			$this->user->email = $this->auth->getIdentity();
 		}
-		else
+		else if($e->getRouteMatch()->getParam('action') != 'login')
 		{
-			$e->getRouteMatch()->setParam('action', 'login');
+			return $this->redirect()->toRoute('default', array('action'=>'login'));
 		}
 		return parent::execute($e);
 	}
