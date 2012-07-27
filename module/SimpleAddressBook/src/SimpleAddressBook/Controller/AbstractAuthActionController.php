@@ -29,12 +29,14 @@ abstract class AbstractAuthActionController extends AbstractActionController
 
 	public function execute(MvcEvent $e)
 	{
+		$action = $e->getRouteMatch()->getParam('action');
+				
 		if($this->auth->hasIdentity())
 		{
 			$this->user = new User();
 			$this->user->email = $this->auth->getIdentity();
 		}
-		else if($e->getRouteMatch()->getParam('action') != 'login')
+		else if($action != 'login')
 		{
 			return $this->redirect()->toRoute('default', array('action'=>'login'));
 		}

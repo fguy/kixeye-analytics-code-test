@@ -3,6 +3,7 @@ namespace SimpleAddressBook\Model;
 use Zend\Db\TableGateway\AbstractTableGateway;
 use Zend\Db\Adapter\Adapter;
 use Zend\Db\ResultSet\ResultSet;
+use Zend\Db\Sql\Select;
 class ContactTableGateway extends AbstractTableGateway
 {
 	protected $table ='contact';
@@ -58,6 +59,13 @@ class ContactTableGateway extends AbstractTableGateway
 				throw new \Exception('Form id does not exist');
 			}
 		}
+	}
+	public function find($q, $limit = 20) {
+		return $this->select(function (Select $select) use ($q, $limit)
+		{
+			$select->where(sprintf('MATCH(last_name, first_name, email) AGAINST(\'%s\')', $q));
+			$select->order('first_name ASC, last_name ASC, email ASC')->limit($limit);
+		});
 	}
 	public function del($id)
 	{

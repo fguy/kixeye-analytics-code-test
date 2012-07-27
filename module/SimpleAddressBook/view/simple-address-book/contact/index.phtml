@@ -1,11 +1,18 @@
-<?php $title = 'Contact List' ?>
+<?php 
+	$title = 'Contact List';
+	$this->form->setAttribute('action', 'simple-address-book/contact/search');
+	$this->form->prepare();
+?>
 <?= $this->headTitle($title) ?>
-<h1>
-	<?= $this->escapeHtml($title) ?>
-</h1>
+<h1><?= $this->escapeHtml($title) ?></h1>
 <p>
 	<button onclick="location.href='/simple-address-book/contact/add'">Add new</button>
 </p>
+<div>
+	<?= $this->form()->openTag($this->form) ?>
+		<div><?= $this->formRow($this->form->get('q')) ?></div>
+	<?= $this->form()->closeTag($this->form) ?>		
+</div>
 <table>
 	<tr>
 		<th>First name</th>
@@ -43,3 +50,6 @@
 	</tr>
 	<?php endforeach; ?>
 </table>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/js/autocomplete.js"></script>

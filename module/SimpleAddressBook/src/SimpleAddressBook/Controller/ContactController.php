@@ -1,9 +1,9 @@
 <?php
 namespace SimpleAddressBook\Controller;
-
-use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\JsonModel;
 use Zend\View\Model\ViewModel;
 use SimpleAddressBook\Form\ContactForm;
+use SimpleAddressBook\Form\SearchForm;
 use SimpleAddressBook\Model\Contact;
 
 class ContactController extends AbstractAuthActionController
@@ -13,9 +13,10 @@ class ContactController extends AbstractAuthActionController
 
 	public function indexAction()
 	{
-		return new ViewModel(array(
+		return array(
 				'contact_list' => $this->getTableGateway()->fetchAll(),
-		));
+				'form' => new SearchForm()
+		);
 	}
 
 	public function addAction()
@@ -92,6 +93,30 @@ class ContactController extends AbstractAuthActionController
 				'id' => $id,
 				'contact' => $this->getTableGateway()->getOne($id)
 		);
+	}
+	
+	public function searchAction() 
+	{
+		$query = $this->getRequest()->getQuery();
+		$q = $query->get('q');
+		$form = new SearchForm();
+		$form->bind($query);
+		$view = new ViewModel(array('contact_list'=>$this->getTableGateway()->find($q), 'form'=>$form));
+		$view->setTemplate('simple-address-book/contact/index');
+		return $view;
+	}
+	
+	public function autoCompleteAction() 
+	{
+		$rowset = $this->getTableGateway()->find($this->getRequest()->getQuery()->get('term'));
+		$result = array();
+		foreach($rowset as $contact)
+		{
+			$result[] = sprintf('%s %s (%s)', $contact->first_name, $contact->last_name, $contact->email);
+		}
+		$json = new JsonModel($result);
+		echo $json->serialize();
+		exit;
 	}
 
 	private function getTableGateway()

@@ -7,22 +7,20 @@ PRIMARY KEY (`email`)
 CREATE TABLE IF NOT EXISTS `contact` (
 `id` INT NOT NULL AUTO_INCREMENT,
 `owner` VARCHAR(255) NOT NULL,
-`first_name` VARCHAR(30) NOT NULL,
-`last_name` VARCHAR(30) NOT NULL,
-`email` VARCHAR(255) NOT NULL,
+`first_name` VARCHAR(30) binary NOT NULL,
+`last_name` VARCHAR(30) binary NOT NULL,
+`email` VARCHAR(255) binary NOT NULL,
 `phone` VARCHAR(64) NOT NULL,
-`city` VARCHAR(30) NOT NULL,
+`city` VARCHAR(30) binary NOT NULL,
 `state` CHAR(2) NOT NULL,
 `zip` VARCHAR(12) NOT NULL,
 `web_addr` VARCHAR(255) DEFAULT NULL,
 `second_phone` VARCHAR(255) DEFAULT NULL,
-`street_addr` VARCHAR(255) DEFAULT NULL,
+`street_addr` VARCHAR(255) binary DEFAULT NULL,
 PRIMARY KEY (`id`),
-INDEX idx_user(`owner`),
-CONSTRAINT ikf_user FOREIGN KEY (`owner`)
-REFERENCES user (`email`)
-    ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+FULLTEXT (`first_name`, `last_name`, `email`),
+INDEX idx_user(`owner`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- some sample data
 INSERT INTO `user` (`email`, `password`) VALUES
